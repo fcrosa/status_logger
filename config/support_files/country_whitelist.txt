@@ -1,0 +1,6 @@
+US
+CA
+GB
+FR
+DE
+ES

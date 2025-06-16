@@ -1,0 +1,20 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: fcrosa
+  password: '1234'
+  host: localhost
+  pool: 5
+
+development:
+  <<: *default
+  database: status_logger_development
+
+test:
+  <<: *default
+  database: status_logger_test
+
+production:
+  <<: *default
+  database: status_logger_production
