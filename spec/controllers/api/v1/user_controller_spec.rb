@@ -2,22 +2,21 @@ require 'rails_helper'
 
 RSpec.describe "Api::V1::UserController", type: :request do
 
-  let(:valid_headers) { { 'CF-IPCountry' => 'US' } }
+  let(:valid_headers) { { 'CF-IPCountry' => 'US', 'CONTENT_TYPE' => 'application/json' } }
   let(:valid_params) do
     {
       idfa: 'test-idfa-123',
       rooted_device: false
     }
   end
-
+  
   describe 'POST /api/v1/user/check_status' do
 
     let(:url) { '/api/v1/user/check_status' }
 
     context 'with valid parameters and headers' do
-
       it 'returns a successful response with ban_status' do
-        post url, params: valid_params.to_json, headers: valid_headers.merge('CONTENT_TYPE' => 'application/json')
+        post url, params: valid_params.to_json, headers: valid_headers
 
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -34,7 +33,7 @@ RSpec.describe "Api::V1::UserController", type: :request do
 
         expect(response).to have_http_status(422)
         json = JSON.parse(response.body)
-        expect(json['error']).to match(/Missing required body parameters: idfa/)
+        expect(json['errors']).to include("Missing required body parameters: idfa")
       end
     end
 
@@ -45,7 +44,7 @@ RSpec.describe "Api::V1::UserController", type: :request do
 
         expect(response).to have_http_status(422)
         json = JSON.parse(response.body)
-        expect(json['error']).to match(/Missing required headers: CF-IPCountry/)
+        expect(json['errors']).to include('Missing required headers: CF-IPCountry')
       end
     end
 
@@ -56,8 +55,9 @@ RSpec.describe "Api::V1::UserController", type: :request do
 
         expect(response).to have_http_status(422)
         json = JSON.parse(response.body)
-        expect(json['error']).to include('Missing required body parameters')
-        expect(json['error']).to include('Missing required headers')
+        expect(json['errors']).to include('Missing required body parameters: idfa')
+        expect(json['errors']).to include('Missing required body parameters: rooted_device')  
+        expect(json['errors']).to include('Missing required headers: CF-IPCountry')
       end
     end
 
@@ -72,13 +72,13 @@ RSpec.describe "Api::V1::UserController", type: :request do
     end
 
     context 'empty JSON body' do
-      
       it 'returns unprocessable_entity with error message' do
         post url, params: '{}', headers: valid_headers.merge('CONTENT_TYPE' => 'application/json')
 
         expect(response).to have_http_status(422)
         json = JSON.parse(response.body)
-        expect(json['error']).to include('Missing required body parameters')
+        expect(json['errors']).to include('Missing required body parameters: idfa')
+        expect(json['errors']).to include('Missing required body parameters: rooted_device')
       end
     end
   end
