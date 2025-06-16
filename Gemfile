@@ -18,6 +18,7 @@ gem "logger"
 gem 'dotenv-rails', groups: [:development, :test]
 # http
 gem 'http'
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -45,4 +46,10 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
+  #Rspec
+  gem 'rspec-rails', '~> 5.0.0'
+  gem 'simplecov', require: false
+  gem 'shoulda-matchers', '~> 5.0'
+  # Debug
+  gem 'pry'
 end

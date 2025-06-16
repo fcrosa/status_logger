@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_15_173625) do
 
   create_table "integrity_logs", force: :cascade do |t|
     t.string "idfa"
-    t.string "ban_status"
+    t.integer "ban_status", default: 0
     t.string "ip"
     t.boolean "rooted_device"
     t.string "country"
@@ -28,7 +28,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_15_173625) do
 
   create_table "users", force: :cascade do |t|
     t.string "idfa"
-    t.string "ban_status", default: "not_banned"
+    t.integer "ban_status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

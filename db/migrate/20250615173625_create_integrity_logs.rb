@@ -2,7 +2,7 @@ class CreateIntegrityLogs < ActiveRecord::Migration[7.1]
   def change
     create_table :integrity_logs do |t|
       t.string :idfa
-      t.string :ban_status
+      t.integer :ban_status, default: 0
       t.string :ip
       t.boolean :rooted_device
       t.string :country
