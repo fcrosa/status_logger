@@ -3,7 +3,7 @@ require 'rails_helper'
 # To run this test, you must have Redis configured in your local environment correctly 
 # and the Redis service running.
 
-RSpec.describe RedisCountriesWhitelist do
+RSpec.describe RedisCountriesService do
   
   let(:redis_key) { described_class::REDIS_KEY }
 

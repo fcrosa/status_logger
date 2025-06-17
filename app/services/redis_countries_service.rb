@@ -1,8 +1,8 @@
 # Redis Service to manage the country whitelist 
 
-class RedisCountriesWhitelist
+class RedisCountriesService
   
-    REDIS_KEY = 'country_whitelist'
+  REDIS_KEY = 'country_whitelist'
 
   def self.add_country(country_code)
     $redis.sadd(REDIS_KEY, country_code.upcase)

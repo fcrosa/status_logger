@@ -1,18 +1,18 @@
 namespace :redis do
-  desc "Load whitelist countries into Redis from file"
+  desc "Load whitelist countries into Redis from environment variable"
   task load_country_whitelist: :environment do
-    file_path = Rails.root.join('config', 'support_files','country_whitelist.txt')
+    whitelist = ENV["WL_COUNTRIES"]
 
-    unless File.exist?(file_path)
-      puts "Whitelist file not found: #{file_path}"
+    if whitelist.blank?
+      puts "Whitelist environment variable not found or empty: WL_COUNTRIES"
       exit 1
     end
 
-    countries = File.readlines(file_path).map(&:strip).reject(&:empty?)
+    countries = whitelist.split(',').map(&:strip).reject(&:empty?)
 
-    RedisCountriesWhitelist.clear
-    RedisCountriesWhitelist.load_countries(countries)
+    RedisCountriesService.clear
+    RedisCountriesService.load_countries(countries)
 
-    puts "Loaded whitelist countries into Redis: #{RedisCountriesWhitelist.all.join(', ')}"
+    puts "Loaded whitelist countries into Redis: #{RedisCountriesService.all.join(', ')}"
   end
 end

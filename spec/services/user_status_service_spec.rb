@@ -19,7 +19,7 @@ RSpec.describe UserStatusService do
 
   before do
     allow(User).to receive(:find_or_initialize_by).with(idfa: params[:idfa]).and_return(user)
-    allow(RedisCountriesWhitelist).to receive(:allowed?).and_return(true)
+    allow(RedisCountriesService).to receive(:allowed?).and_return(true)
     allow($redis).to receive(:get).and_return(nil)
     allow($redis).to receive(:setex)
     allow(HTTP).to receive(:get).and_return(double(body: vpnapi422_response.to_json))
@@ -47,7 +47,7 @@ RSpec.describe UserStatusService do
 
       context 'and country is not allowed' do
         before do
-          allow(RedisCountriesWhitelist).to receive(:allowed?).with('US').and_return(false)
+          allow(RedisCountriesService).to receive(:allowed?).with('US').and_return(false)
         end
 
         it 'updates user to banned' do
@@ -68,7 +68,7 @@ RSpec.describe UserStatusService do
 
       context 'and vpn or proxy detected' do
         before do
-          allow(RedisCountriesWhitelist).to receive(:allowed?).and_return(true)
+          allow(RedisCountriesService).to receive(:allowed?).and_return(true)
           allow(service).to receive(:vpn_or_proxy_detected?).and_return(true)
         end
 
@@ -81,7 +81,7 @@ RSpec.describe UserStatusService do
       context 'and all checks pass' do
   
         before do
-          allow(RedisCountriesWhitelist).to receive(:allowed?).and_return(true)
+          allow(RedisCountriesService).to receive(:allowed?).and_return(true)
           allow(service).to receive(:vpn_or_proxy_detected?).and_return(false)
         end
 
@@ -142,8 +142,8 @@ RSpec.describe UserStatusService do
 
   describe '#country_allowed?' do
   
-    it 'calls RedisCountriesWhitelist.allowed? with the country code' do
-      expect(RedisCountriesWhitelist).to receive(:allowed?).with('US')
+    it 'calls RedisCountriesService.allowed? with the country code' do
+      expect(RedisCountriesService).to receive(:allowed?).with('US')
       service.send(:country_allowed?)
     end
   end

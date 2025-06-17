@@ -32,7 +32,7 @@ class UserStatusService
   end
 
   def country_allowed?
-    RedisCountriesWhitelist.allowed?(@cf_ip_country)
+    RedisCountriesService.allowed?(@cf_ip_country)
   end
 
   def rooted_device?

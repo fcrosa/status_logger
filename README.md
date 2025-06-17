@@ -48,6 +48,7 @@ PG_TEST_USER="your_username"
 PG_TEST_PWD="your_password"
 REDIS_URL=redis://localhost:6379/0
 VPNAPI_KEY=your_vpnapi_key
+WL_COUNTRIES=US,CA,MX,GB,FR
 ```
 
 ### 4. Set Up the Database
@@ -71,13 +72,52 @@ Start the Rails server:
 rails server
 ```
 
-### 6. Load Whitelist Countries into Redis
+### 6. Country Whitelist Configuration and Usage
 
-To load the country whitelist into Redis, run the following Rake task:
+This project includes functionality to manage a country whitelist stored in Redis. The whitelist is automatically initialized when the server starts and can also be manually reloaded using a Rake task.
+
+**Automatic Initialization**
+
+When you run the `rails server` command, the system will:
+
+* Read the ENV["WL_COUNTRIES"] environment variable.
+
+* Process the list of countries.
+
+* Load the countries into Redis automatically.
+
+If the environment variable is not set or is empty, a warning will be logged, and no whitelist will be loaded into Redis.
+
+**Manual Reload**
+
+If you want to reload the whitelist manually, you can use the following Rake task:
+
 ```bash
 rails redis:load_country_whitelist
 ```
-You can find the ```country_whitelist.txt``` in: ```/config/support_files/country_whitelist.txt```
+
+This task will:
+
+1. Read the ENV["WL_COUNTRIES"] environment variable.
+
+2. Clear existing data in Redis for the country whitelist.
+
+3. Load the new list of countries into Redis.
+
+Example Execution
+
+```bash
+WL_COUNTRIES=US,CA,MX rails redis:load_country_whitelist
+```
+
+This command will set the whitelist to include the countries United States, Canada, and Mexico.
+
+Additional Notes
+Ensure Redis is properly configured and running before starting the server or executing the Rake task.
+
+You can verify that the countries have been loaded into Redis by checking the logs or using tools like redis-cli.
+
+
 
 ---
 
