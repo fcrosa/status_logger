@@ -2,8 +2,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: fcrosa
-  password: '1234'
+  username: <%= ENV['PG_TEST_USER'] %>
+  password: <%= ENV['PG_TEST_PWD'] %>
   host: localhost
   pool: 5
 
