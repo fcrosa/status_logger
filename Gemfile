@@ -47,7 +47,7 @@ group :development, :test do
   gem "brakeman", require: false
 
   #Rspec
-  gem 'rspec-rails', '~> 5.0.0'
+  gem 'rspec-rails', '~> 7.1.1'
   gem 'simplecov', require: false
   gem 'shoulda-matchers', '~> 5.0'
   # Debug
