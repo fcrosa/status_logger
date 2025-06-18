@@ -278,7 +278,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.13.4)
-    shoulda-matchers (5.3.0)
+    shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -347,7 +347,7 @@ DEPENDENCIES
   rails (= 7.1.0)
   redis
   rspec-rails (~> 5.0.0)
-  shoulda-matchers (~> 5.0)
+  shoulda-matchers (~> 6.5)
   simplecov
   solid_cable
   solid_cache
